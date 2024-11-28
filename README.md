@@ -1,17 +1,19 @@
-# Pac3man: Python3 port of Berkeley Pacman
+# PACMAN
 
-Porting the Berkeley Pacman assignments over to Python 3.
+## Overview
 
-Just the assignment code, but none of the solutions.
+Pac3man is a Python 3 adaptation of the popular Berkeley Pacman assignments. This project provides an educational framework for understanding and implementing key search algorithms in artificial intelligence, such as DFS, BFS, UCS, and A*. These assignments are designed to help students learn problem-solving strategies and explore AI concepts interactively.
 
-My solution code is on a different branch, but that branch is committed to a private Github repo so that students cannot see it. That is not really pertinent information but I wanted to share it because I was really excited to figure it out.
+In addition to the Pacman assignments, the repository also includes:
 
-This repo also contains two other assignments, a Markov Babbler and a Naive Bayesian Spam Classifier.
-# Maze Search Algorithm Performance
+1.Markov Babbler: A simple text generator using Markov chains.
+2.Naive Bayesian Spam Classifier: A spam detection tool based on naive Bayesian classification.
 
-Here are the tables for each maze (tinyMaze, mediumMaze, bigMaze) with the actual time and length of the path for each search algorithm (BFS, DFS, UCS, A*). The data is hypothetical and should be replaced with actual results after running the respective commands.
+## Maze Search Algorithm Performance
 
-### tinyMaze
+Below is a performance comparison of different search algorithms (BFS, DFS, UCS, A*) across three maze configurations (tinyMaze, mediumMaze, bigMaze). The table includes the hypothetical runtime and path length data for each algorithm, which should be replaced with actual values after running the commands.
+
+### TinyMaze
 
 | Algorithm | Time (s) | Length of Path |
 |-----------|----------|----------------|
@@ -22,7 +24,7 @@ Here are the tables for each maze (tinyMaze, mediumMaze, bigMaze) with the actua
 
 ![tinyMaze](img/tinyMaze.png)
 
-### mediumMaze
+### MediumMaze
 
 | Algorithm | Time (s) | Length of Path |
 |-----------|----------|----------------|
@@ -33,7 +35,7 @@ Here are the tables for each maze (tinyMaze, mediumMaze, bigMaze) with the actua
 
 ![mediumMaze](img/mediumMaze.png)
 
-### bigMaze
+### BigMaze
 
 | Algorithm | Time (s) | Length of Path |
 |-----------|----------|----------------|
@@ -44,26 +46,31 @@ Here are the tables for each maze (tinyMaze, mediumMaze, bigMaze) with the actua
 
 ![bigMaze](img/bigMaze.png)
 
-You can fill in the actual time and length of the path for each algorithm after running the respective commands:
+Run the following commands to populate the tables with actual results:
 
-- `python pacman.py -l tinyMaze -p SearchAgent -a fn=bfs`
-- `python pacman.py -l tinyMaze -p SearchAgent -a fn=dfs`
-- `python pacman.py -l tinyMaze -p SearchAgent -a fn=ucs`
-- `python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
+#### tinyMaze
+python pacman.py -l tinyMaze -p SearchAgent -a fn=bfs
+python pacman.py -l tinyMaze -p SearchAgent -a fn=dfs
+python pacman.py -l tinyMaze -p SearchAgent -a fn=ucs
+python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
 
-- `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
-- `python pacman.py -l mediumMaze -p SearchAgent -a fn=dfs`
-- `python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs`
-- `python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
+#### mediumMaze
+python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs
+python pacman.py -l mediumMaze -p SearchAgent -a fn=dfs
+python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs
+python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
 
-- `python pacman.py -l bigMaze -p SearchAgent -a fn=bfs`
-- `python pacman.py -l bigMaze -p SearchAgent -a fn=dfs`
-- `python pacman.py -l bigMaze -p SearchAgent -a fn=ucs`
-- `python pacman.py -l bigMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
+#### bigMaze
+python pacman.py -l bigMaze -p SearchAgent -a fn=bfs
+python pacman.py -l bigMaze -p SearchAgent -a fn=dfs
+python pacman.py -l bigMaze -p SearchAgent -a fn=ucs
+python pacman.py -l bigMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
 
-## tinyMazeSearch Function
+## Search Algorithms Implementation
 
-Returns a sequence of moves that solves tinyMaze. For any other maze, the sequence of moves will be incorrect, so only use this for tinyMaze.
+### tinyMazeSearch Function
+
+Returns a hardcoded solution for tinyMaze. Use this only for tinyMaze.
 
 ```python
 def tinyMazeSearch(problem):
@@ -73,13 +80,9 @@ def tinyMazeSearch(problem):
     return [s, s, w, s, w, w, s, w]
 ```
 
-## depthFirstSearch Function
+### depthFirstSearch Function
 
-Search the deepest nodes in the search tree first.
-
-Your search algorithm needs to return a list of actions that reaches the goal. Make sure to implement a graph search algorithm.
-
-To get started, you might want to try some of these simple commands to understand the search problem that is being passed in:
+Searches the deepest nodes in the search tree first. Implements a graph search algorithm using a stack for the frontier.
 
 ```python
 def depthFirstSearch(problem):
@@ -107,9 +110,9 @@ def depthFirstSearch(problem):
     return []
 ```
 
-## breadthFirstSearch Function
+### breadthFirstSearch Function
 
-Search the shallowest nodes in the search tree first.
+Searches the shallowest nodes in the search tree first. Uses a queue for the frontier.
 
 ```python
 def breadthFirstSearch(problem):
@@ -134,9 +137,9 @@ def breadthFirstSearch(problem):
     return []
 ```
 
-## uniformCostSearch Function
+### uniformCostSearch Function
 
-Search the node of least total cost first.
+Searches the node with the least total cost first. Uses a priority queue to manage the frontier.
 
 ```python
 def uniformCostSearch(problem):
@@ -163,18 +166,18 @@ def uniformCostSearch(problem):
     return path
 ```
 
-## nullHeuristic Function
+### nullHeuristic Function
 
-A heuristic function estimates the cost from the current state to the nearest goal in the provided SearchProblem. This heuristic is trivial.
+A trivial heuristic function that always returns 0. Used as a baseline for A*.
 
 ```python
 def nullHeuristic(state, problem=None):
     return 0
 ```
 
-## aStarSearch Function
+### A* Search Function
 
-Search the node that has the lowest combined cost and heuristic first.
+Searches the node with the lowest combined cost and heuristic. Uses a priority queue.
 
 ```python
 def aStarSearch(problem, heuristic=nullHeuristic):
