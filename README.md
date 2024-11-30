@@ -6,9 +6,10 @@ Pac3man is a Python 3 adaptation of the popular Berkeley Pacman assignments. Thi
 
 In addition to the Pacman assignments, the repository also includes:
 
-1.Markov Babbler: A simple text generator using Markov chains.
-<br>
-2.Naive Bayesian Spam Classifier: A spam detection tool based on naive Bayesian classification.
+<ul>
+<li>Markov Babbler: A simple text generator using Markov chains.</li>
+<li>Naive Bayesian Spam Classifier: A spam detection tool based on naive Bayesian classification.</li>
+</ul>
 
 ## Maze Search Algorithm Performance
 
@@ -72,6 +73,7 @@ Run the following commands to populate the tables with actual results:
 <li>python pacman.py -l bigMaze -p SearchAgent -a fn=ucs</li>
 <li>python pacman.py -l bigMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic</li>
 </ul>
+
 ## Search Algorithms Implementation
 
 ### tinyMazeSearch Function
