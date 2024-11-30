@@ -54,7 +54,7 @@ Run the following commands to populate the tables with actual results:
 <li>python pacman.py -l tinyMaze -p SearchAgent -a fn=bfs</li>
 <li>python pacman.py -l tinyMaze -p SearchAgent -a fn=dfs</li>
 <li>python pacman.py -l tinyMaze -p SearchAgent -a fn=ucs</li>
-<li>python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic</li>>
+<li>python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic</li>
 </ul>
 #### mediumMaze
 <ul>
