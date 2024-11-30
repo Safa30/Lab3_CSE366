@@ -50,23 +50,27 @@ Below is a performance comparison of different search algorithms (BFS, DFS, UCS,
 Run the following commands to populate the tables with actual results:
 
 #### tinyMaze
-python pacman.py -l tinyMaze -p SearchAgent -a fn=bfs
-python pacman.py -l tinyMaze -p SearchAgent -a fn=dfs
-python pacman.py -l tinyMaze -p SearchAgent -a fn=ucs
-python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
-
+<ul>
+<li>python pacman.py -l tinyMaze -p SearchAgent -a fn=bfs</li>
+<li>python pacman.py -l tinyMaze -p SearchAgent -a fn=dfs</li>
+<li>python pacman.py -l tinyMaze -p SearchAgent -a fn=ucs</li>
+<li>python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic</li>>
+</ul>
 #### mediumMaze
-python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs
-python pacman.py -l mediumMaze -p SearchAgent -a fn=dfs
-python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs
-python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
+<ul>
+<li>python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs</li>
+<li>python pacman.py -l mediumMaze -p SearchAgent -a fn=dfs</li>
+<li>python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs</li>
+<li>python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic</li>
+</ul>
 
 #### bigMaze
-python pacman.py -l bigMaze -p SearchAgent -a fn=bfs
-python pacman.py -l bigMaze -p SearchAgent -a fn=dfs
-python pacman.py -l bigMaze -p SearchAgent -a fn=ucs
-python pacman.py -l bigMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic
-
+<ul>
+<li>python pacman.py -l bigMaze -p SearchAgent -a fn=bfs</li>
+<li>python pacman.py -l bigMaze -p SearchAgent -a fn=dfs</li>
+<li>python pacman.py -l bigMaze -p SearchAgent -a fn=ucs</li>
+<li>python pacman.py -l bigMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic</li>
+</ul>
 ## Search Algorithms Implementation
 
 ### tinyMazeSearch Function
