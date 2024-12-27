@@ -1,97 +1,73 @@
-# search.py
-# ---------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
-"""
-In search.py, you will implement generic search algorithms which are called by
-Pacman agents (in searchAgents.py).
-"""
-
+import time  # Importing time module to measure execution time
 import util
-from util import*
+
+# ===================================================
+# CLASS: SearchProblem
+# ===================================================
 class SearchProblem:
     """
-    This class outlines the structure of a search problem, but doesn't implement
+    This class outlines the structure of a search problem but doesn't implement
     any of the methods (in object-oriented terminology: an abstract class).
-
-    You do not need to change anything in this class, ever.
     """
 
     def getStartState(self):
-        """
-        Returns the start state for the search problem.
-        """
+        """Returns the start state for the search problem."""
         util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
-          state: Search state
-
         Returns True if and only if the state is a valid goal state.
         """
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
         """
-          state: Search state
-
-        For a given state, this should return a list of triples, (successor,
-        action, stepCost), where 'successor' is a successor to the current
-        state, 'action' is the action required to get there, and 'stepCost' is
-        the incremental cost of expanding to that successor.
+        Returns a list of triples, (successor, action, stepCost), where:
+        - 'successor' is the next state
+        - 'action' is the action required to get there
+        - 'stepCost' is the incremental cost of expanding to that successor
         """
         util.raiseNotDefined()
 
     def getCostOfActions(self, actions):
         """
-         actions: A list of actions to take
-
-        This method returns the total cost of a particular sequence of actions.
+        Returns the total cost of a particular sequence of actions.
         The sequence must be composed of legal moves.
         """
         util.raiseNotDefined()
 
-
-def tinyMazeSearch(problem):
+# ===================================================
+# FUNCTION: Path Logger
+# ===================================================
+def log_path(path):
     """
-    Returns a sequence of moves that solves tinyMaze.  For any other maze, the
-    sequence of moves will be incorrect, so only use this for tinyMaze.
+    Logs the path in a step-by-step manner for better readability.
     """
-    from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
-    return  [s, s, w, s, w, w, s, w]
+    print("\nPath Taken (Step-by-Step):")
+    if len(path) == 0:
+        print("No solution found.")
+    else:
+        for step_num, action in enumerate(path, start=1):
+            print(f"Step {step_num}: {action}")
+    print(f"\nTotal Steps: {len(path)}")
 
+# ===================================================
+# FUNCTION: Depth-First Search (DFS)
+# ===================================================
 def depthFirstSearch(problem):
     """
-    Search the deepest nodes in the search tree first.
-
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
-
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
-
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    Implements Depth-First Search (DFS) algorithm.
     """
-    "*** YOUR CODE HERE ***"
+    start_time = time.time()  # Start timing the algorithm
     startState = problem.getStartState()
+    
     if problem.isGoalState(startState):
+        print("\nDepth-First Search:")
+        log_path([])  # Goal is the start state itself (no actions)
+        print(f"Execution Time: {time.time() - start_time:.4f} seconds")
         return []
 
-    frontier = util.Stack()
+    frontier = util.Stack()  # Using a stack for DFS
     frontier.push((startState, []))
     explored = set()
 
@@ -99,6 +75,10 @@ def depthFirstSearch(problem):
         state, actions = frontier.pop()
 
         if problem.isGoalState(state):
+            elapsed_time = time.time() - start_time
+            print("\nDepth-First Search:")
+            log_path(actions)
+            print(f"Execution Time: {elapsed_time:.4f} seconds")
             return actions
 
         if state not in explored:
@@ -108,102 +88,140 @@ def depthFirstSearch(problem):
                     newActions = actions + [action]
                     frontier.push((successor, newActions))
 
+    print("\nDepth-First Search:")
+    log_path([])  # No solution
+    print(f"Execution Time: {time.time() - start_time:.4f} seconds")
     return []
-   # util.raiseNotDefined()
 
+# ===================================================
+# FUNCTION: Breadth-First Search (BFS)
+# ===================================================
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    #util.raiseNotDefined()
-    """ Search the shallowest nodes in the search tree first. """
-    currPath = []           # The path that is popped from the frontier in each loop
-    currState =  problem.getStartState()    # The state(position) that is popped for the frontier in each loop
-    print(f"currState: {currState}")
-    if problem.isGoalState(currState):     # Checking if the start state is also a goal state
+    """
+    Implements Breadth-First Search (BFS) algorithm.
+    """
+    start_time = time.time()  # Start timing the algorithm
+    currState = problem.getStartState()
+    currPath = []
+
+    if problem.isGoalState(currState):
+        print("\nBreadth-First Search:")
+        log_path(currPath)
+        print(f"Execution Time: {time.time() - start_time:.4f} seconds")
         return currPath
 
-    frontier = Queue()
-    frontier.push( (currState, currPath) )     # Insert just the start state, in order to pop it first
+    frontier = util.Queue()  # Using a queue for BFS
+    frontier.push((currState, currPath))
     explored = set()
+
     while not frontier.isEmpty():
-        currState, currPath = frontier.pop()    # Popping a state and the corresponding path
-        # To pass autograder.py question2:
+        currState, currPath = frontier.pop()
         if problem.isGoalState(currState):
+            elapsed_time = time.time() - start_time
+            print("\nBreadth-First Search:")
+            log_path(currPath)
+            print(f"Execution Time: {elapsed_time:.4f} seconds")
             return currPath
+
         explored.add(currState)
-        frontierStates = [ t[0] for t in frontier.list ]
+        frontierStates = [t[0] for t in frontier.list]  # Avoid revisiting states
         for s in problem.getSuccessors(currState):
             if s[0] not in explored and s[0] not in frontierStates:
-                # Lecture code:
-                # if problem.isGoalState(s[0]):
-                #     return currPath + [s[1]]
-                frontier.push( (s[0], currPath + [s[1]]) )      # Adding the successor and its path to the frontier
+                frontier.push((s[0], currPath + [s[1]]))
 
-    return []       # If this point is reached, a solution could not be found.
+    print("\nBreadth-First Search:")
+    log_path([])  # No solution
+    print(f"Execution Time: {time.time() - start_time:.4f} seconds")
+    return []
 
+# ===================================================
+# FUNCTION: Uniform-Cost Search (UCS)
+# ===================================================
 def uniformCostSearch(problem):
-    """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    from util import Queue,PriorityQueue
-    fringe = PriorityQueue()                    # Fringe to manage which states to expand
-    fringe.push(problem.getStartState(),0)
-    visited = []                                # List to check whether state has already been visited
-    tempPath=[]                                 # Temp variable to get intermediate paths
-    path=[]                                     # List to store final sequence of directions 
-    pathToCurrent=PriorityQueue()               # Queue to store direction to children (currState and pathToCurrent go hand in hand)
-    currState = fringe.pop()
-    while not problem.isGoalState(currState):
-        if currState not in visited:
-            visited.append(currState)
-            successors = problem.getSuccessors(currState)
-            for child,direction,cost in successors:
-                tempPath = path + [direction]
-                costToGo = problem.getCostOfActions(tempPath)
-                if child not in visited:
-                    fringe.push(child,costToGo)
-                    pathToCurrent.push(tempPath,costToGo)
-        currState = fringe.pop()
-        path = pathToCurrent.pop()    
-    return path
-    #util.raiseNotDefined()
-
-def nullHeuristic(state, problem=None):
     """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
+    Implements Uniform-Cost Search (UCS) algorithm.
     """
-    return 0
+    start_time = time.time()  # Start timing the algorithm
+    from util import PriorityQueue
+    frontier = PriorityQueue()
+    frontier.push(problem.getStartState(), 0)
+    visited = set()
+    pathToState = {}
 
-def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    from util import Queue,PriorityQueue
-    fringe = PriorityQueue()                    # Fringe to manage which states to expand
-    fringe.push(problem.getStartState(),0)
-    currState = fringe.pop()
-    visited = []                                # List to check whether state has already been visited
-    tempPath=[]                                 # Temp variable to get intermediate paths
-    path=[]                                     # List to store final sequence of directions 
-    pathToCurrent=PriorityQueue()               # Queue to store direction to children (currState and pathToCurrent go hand in hand)
-    while not problem.isGoalState(currState):
-        if currState not in visited:
-            visited.append(currState)
-            successors = problem.getSuccessors(currState)
-            for child,direction,cost in successors:
-                tempPath = path + [direction]
-                costToGo = problem.getCostOfActions(tempPath) + heuristic(child,problem)
-                if child not in visited:
-                    fringe.push(child,costToGo)
-                    pathToCurrent.push(tempPath,costToGo)
-        currState = fringe.pop()
-        path = pathToCurrent.pop()    
-    return path
-    
-    #util.raiseNotDefined()
+    # Push the initial state into pathToState with an empty path
+    pathToState[problem.getStartState()] = []
 
+    while not frontier.isEmpty():
+        state = frontier.pop()
+        path = pathToState[state]  # Get the path associated with the state
 
-# Abbreviations
+        if problem.isGoalState(state):
+            elapsed_time = time.time() - start_time
+            print("\nUniform-Cost Search:")
+            log_path(path)
+            print(f"Execution Time: {elapsed_time:.4f} seconds")
+            return path
+
+        if state not in visited:
+            visited.add(state)
+            for successor, action, stepCost in problem.getSuccessors(state):
+                newCost = problem.getCostOfActions(path + [action])
+                frontier.push(successor, newCost)
+                pathToState[successor] = path + [action]
+
+    print("\nUniform-Cost Search:")
+    log_path([])  # No solution
+    print(f"Execution Time: {time.time() - start_time:.4f} seconds")
+    return []
+
+# ===================================================
+# FUNCTION: A* Search
+# ===================================================
+def aStarSearch(problem, heuristic=lambda state, problem: 0):
+    """
+    Implements A* Search algorithm.
+    """
+    start_time = time.time()  # Start timing the entire search process
+    from util import PriorityQueue
+    frontier = PriorityQueue()
+    startState = problem.getStartState()
+    frontier.push(startState, 0)  # Push the start state with 0 cost
+
+    visited = set()
+    pathToState = {}
+
+    # Push the initial state into pathToState with an empty path
+    pathToState[startState] = []
+
+    while not frontier.isEmpty():
+        state = frontier.pop()
+        path = pathToState[state]  # Get the path associated with the state
+
+        if problem.isGoalState(state):
+            elapsed_time = time.time() - start_time
+            print("\nA* Search:")
+            log_path(path)  # Log the path found
+            print(f"Execution Time (Total Time Taken): {elapsed_time:.4f} seconds")
+            return path
+
+        if state not in visited:
+            visited.add(state)  # Mark the state as visited
+            for successor, action, stepCost in problem.getSuccessors(state):
+                newCost = problem.getCostOfActions(path + [action]) + heuristic(successor, problem)
+                frontier.push(successor, newCost)  # Push to priority queue with f = g + h
+                pathToState[successor] = path + [action]  # Update the path
+
+    # No solution found
+    elapsed_time = time.time() - start_time
+    print("\nA* Search:")
+    log_path([])  # No solution found
+    print(f"Execution Time (Total Time Taken): {elapsed_time:.4f} seconds")
+    return []
+
+# ===================================================
+# ABBREVIATIONS
+# ===================================================
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
-astar = aStarSearch
 ucs = uniformCostSearch
+astar = aStarSearch
